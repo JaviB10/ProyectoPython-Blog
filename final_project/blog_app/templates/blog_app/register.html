@@ -1,0 +1,15 @@
+{% extends "blog_app/index.html" %}
+
+{% block content_title %}
+    <h1>Register User</h1>
+{% endblock content_title %}
+
+{% block content_form %}
+    <form action="{% url 'blog_app:register_user' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save User</button>
+    </form>
+
+    <p>Ya tienes una cuenta creada? <a href="{% url 'blog_app:login_user' %}">Login</a></p>
+{% endblock content_form %}
