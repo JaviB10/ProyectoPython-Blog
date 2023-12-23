@@ -14,7 +14,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         # Asignar el rol de administrador al usuario
-        self.is_staff = True
+        self.is_staff = False
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -1,15 +1,111 @@
 {% extends "blog_app/index.html" %}
-
-{% block content_title %}
-    <h1>Register User</h1>
-{% endblock content_title %}
+{% load static %}
 
 {% block content_form %}
-    <form action="{% url 'blog_app:register_user' %}" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save User</button>
-    </form>
-
-    <p>Ya tienes una cuenta creada? <a href="{% url 'blog_app:login_user' %}">Login</a></p>
+    <div class="bg-info d-flex justify-content-center align-items-center vh-100">
+        <div class="bg-white p-4 rounded-5 text-secondary shadow" style="width: 25rem">
+            <div class="d-flex justify-content-center">
+                <img src="{% static 'blog_app/assets/image/login-icon.svg' %}" alt="login-icon" style="height: 7rem"/>
+            </div>
+            <div class="text-center fs-1 fw-bold">Register</div>
+            <form method="POST" action="{% url 'blog_app:register_user' %}">
+                {% csrf_token %}
+                <div class="input-group mt-4">
+                    <div class="input-group-text bg-info">
+                        <img src="{% static 'blog_app/assets/image/username-icon.svg' %}" alt="username-icon" style="height: 1rem"/>
+                    </div>
+                    <input
+                        class="form-control bg-light"
+                        type="text"
+                        name="{{ form.username.name }}"
+                        placeholder="Username"
+                    />
+                </div>
+                <div class="input-group mt-4">
+                    <div class="input-group-text bg-info">
+                        <img src="{% static 'blog_app/assets/image/name-icon.svg' %}" alt="username-icon" style="height: 1rem"/>
+                    </div>
+                    <input
+                        class="form-control bg-light"
+                        type="text"
+                        name="{{ form.first_name.name }}"
+                        placeholder="First Name"
+                    />
+                </div>
+                <div class="input-group mt-4">
+                    <div class="input-group-text bg-info">
+                        <img src="{% static 'blog_app/assets/image/name-icon.svg' %}" alt="username-icon" style="height: 1rem"/>
+                    </div>
+                    <input
+                        class="form-control bg-light"
+                        type="text"
+                        name="{{ form.last_name.name }}"
+                        placeholder="Last Name"
+                    />
+                </div>
+                <div class="input-group mt-4">
+                    <div class="input-group-text bg-info">
+                        <img src="{% static 'blog_app/assets/image/email-icon.svg' %}" alt="username-icon" style="height: 1rem"/>
+                    </div>
+                    <input
+                        class="form-control bg-light"
+                        type="email"
+                        name="{{ form.email.name }}"
+                        placeholder="Email"
+                    />
+                </div>
+                <div class="input-group mt-4">
+                    <div class="input-group-text bg-info">
+                        <img src="{% static 'blog_app/assets/image/date-icon.svg' %}" alt="username-icon" style="height: 1rem"/>
+                    </div>
+                    <input
+                        class="form-control bg-light"
+                        type="date"
+                        name="{{ form.date_of_birth.name }}"
+                        placeholder="Date of Birth"
+                        value="{{ form.date_of_birth.value|default:'' }}"
+                    />
+                </div>
+                <div class="input-group mt-4">
+                    <div class="input-group-text bg-info">
+                        <img src="{% static 'blog_app/assets/image/password-icon.svg' %}" alt="username-icon" style="height: 1rem"/>
+                    </div>
+                    <input
+                        class="form-control bg-light"
+                        type="password"
+                        name="{{ form.password1.name }}"
+                        placeholder="Password"
+                    />
+                </div>
+                <div class="input-group mt-4">
+                    <div class="input-group-text bg-info">
+                        <img src="{% static 'blog_app/assets/image/password-icon.svg' %}" alt="username-icon" style="height: 1rem"/>
+                    </div>
+                    <input
+                        class="form-control bg-light"
+                        type="password"
+                        name="{{ form.password2.name }}"
+                        placeholder="Password Confirmate"
+                    />
+                </div>
+                
+                {% for field in form %}
+                    {% if field.errors %}
+                        <ul class="error-list mt-1">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endfor %}
+                <div>
+                    <button class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
+                </div>
+            </form>
+            <div class="d-flex gap-1 justify-content-center mt-1">
+                <div>Already have an account?</div>
+                <a href="{% url 'blog_app:login_user' %}" class="text-decoration-none text-info fw-semibold">Login</a>
+            </div>
+        </div>
+    </div>
 {% endblock content_form %}
