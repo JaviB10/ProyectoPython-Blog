@@ -1,13 +1,26 @@
 {% extends "blog_app/index.html" %}
 
-{% block content_title %}
-    <h1>Send message</h1>
-{% endblock content_title %}
-
 {% block content_form %}
-    <form action="{% url 'blog_app:message_created' %}" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Send</button>
-    </form>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 25rem">
+        <div class="text-center fs-1 fw-bold">Message</div>
+        <form action="{% url 'blog_app:message_created' %}" method="POST" class="mb-4">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.receiver.label_tag }}
+                {{ form.receiver }}
+            </div>
+            <div class="input-group mt-4">
+                <input
+                    class="form-control bg-light"
+                    type="text"
+                    name="{{ form.message.name }}"
+                    placeholder="Message"
+                />
+            </div>
+            <div>
+                <button class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
 {% endblock content_form %}

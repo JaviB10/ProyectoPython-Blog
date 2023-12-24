@@ -262,3 +262,12 @@ class MessageCreateView(CreateView):
     def form_valid(self, form):
         form.instance.sender = self.request.user
         return super().form_valid(form)
+
+class MessageListView(ListView):
+    model = Message
+    template_name = 'blog_app/message_list.html'  # Reemplaza con la ruta correcta a tu template
+    context_object_name = 'messages'
+
+    def get_queryset(self):
+        # Filtra los mensajes por el usuario actual como remitente o destinatario
+        return Message.objects.filter(sender=self.request.user) | Message.objects.filter(receiver=self.request.user)
