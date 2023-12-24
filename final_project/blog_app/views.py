@@ -18,6 +18,9 @@ def home_view(request):
     categories = Category.objects.all()
     return render(request, 'blog_app/home.html', {'user':request.user, 'articles': articles, 'categories': categories})
 
+def about_view(request):
+    return render(request, 'blog_app/about.html')
+
 def login_view(request):
 
     if request.user.is_authenticated:
@@ -195,14 +198,14 @@ class ArticleDetailView(DetailView):
         article_id = self.kwargs['pk']
         # Filtra la consulta por el ID del artículo
         return Article.objects.get(id=article_id)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Obtén los comentarios asociados al artículo
         comments = Comment.objects.filter(article=self.object, is_approved=True)
         context['comments'] = comments
         return context
-
+    
 @method_decorator(login_required, name='dispatch')
 class CommentCreateView(CreateView):
     model = Comment

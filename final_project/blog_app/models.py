@@ -110,17 +110,26 @@ class Article(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(max_length=1000)
     categories = models.ManyToManyField(Category)
     date = models.DateTimeField(auto_now_add=True)
     is_published = models.BooleanField(default=False)
+    image = models.ImageField(null=True, blank=True, max_length=500)
+    short_content = models.TextField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         # Generar automáticamente el slug basado en el título
         if not self.slug:
             self.slug = slugify(self.title)
+
+        # Si short_content no se ha establecido manualmente, generarlo a partir de los primeros 100 caracteres del contenido
+        if not self.short_content:
+            self.short_content = self.content[:100]
+
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.title
     def __str__(self):
         return self.title
 

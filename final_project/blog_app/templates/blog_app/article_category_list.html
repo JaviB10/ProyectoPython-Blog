@@ -2,8 +2,10 @@
 {% load static %}
 
 {% block content_form %}
-    <h1>Artículos en la categoría {{ category.name }}</h1>
-    <div class="container mt-5 pt-5">
+    <div class="container mt-5 pt-5 mb-3">
+        <h1>Category {{ category.name }}</h1>
+    </div>
+    <div class="container">
         <div class="row">
             {% for article in articles %}
                 <div class="col-12 col-md-3 my-3">
@@ -12,7 +14,7 @@
                             <p class="card-text">{{ article.title }}</p>
                         </div>
                         <div class="card-body h-50">
-                            <p class="card-text">{{ article.content }}</p>
+                            <p class="card-text">{{ article.short_content }}</p>
                         </div>
                         <div class="card-body text-dark">
                             {% for category in article.categories.all %}

@@ -1,4 +1,4 @@
-
+{% block content_form %}
     <div class="container mt-5 pt-5">
         <div class="row">
             {% for article in articles %}
@@ -8,7 +8,7 @@
                             <p class="card-text">{{ article.title }}</p>
                         </div>
                         <div class="card-body h-50">
-                            <p class="card-text">{{ article.content }}</p>
+                            <p class="card-text">{{ article.short_content }}</p>
                         </div>
                         <div class="card-body text-dark">
                             {% for category in article.categories.all %}
@@ -27,3 +27,5 @@
             {% endfor %}
         </div>
     </div>
+{% endblock content_form %}
+    

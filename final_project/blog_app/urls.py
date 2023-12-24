@@ -5,6 +5,7 @@ app_name = 'blog_app'
 
 urlpatterns = [
     path('', home_view, name='home'),
+    path('about/', about_view, name='about'),
     path('login/', login_view, name='login_user'),
     path('register/', register_view, name='register_user'),
     path('logout/', logout_view, name='logout_user'),
@@ -22,5 +23,5 @@ urlpatterns = [
     path('article/detail/<int:pk>/', ArticleDetailView.as_view(), name='article_detail'),
     path('comment/add/<int:pk>/', CommentCreateView.as_view(), name='comment_created'),
     path('category/<slug:category_slug>/', ArticleCategoryListView.as_view(), name='article_category_list'),
-    path('message/add/', MessageCreateView.as_view(), name='message_created'),
+    path('message/add', MessageCreateView.as_view(), name='message_created'),
 ]

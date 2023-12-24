@@ -1,13 +1,23 @@
 {% extends "blog_app/index.html" %}
-
-{% block content_title %}
-    <h1>Add Cpomment</h1>
-{% endblock content_title %}
+{% load static %}
 
 {% block content_form %}
-<form action="{% url 'blog_app:comment_created' pk=article.pk %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">ADD</button>
-</form>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 25rem">
+    <div class="text-center fs-1 fw-bold">Add Commentary</div>
+    <form method="POST" action="{% url 'blog_app:comment_created' pk=article.pk %}">
+        {% csrf_token %}
+        <div class="input-group mt-4">
+            <input
+                class="form-control bg-light"
+                type="text"
+                name="{{ form.content.name }}"
+                placeholder="Add Commentary"
+            />
+        </div>
+        <div>
+            <button class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Add</button>
+        </div>
+    </form>
+</div>
 {% endblock content_form %}
