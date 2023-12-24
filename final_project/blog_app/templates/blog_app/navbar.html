@@ -19,24 +19,32 @@
                             Categories
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Aventure</a></li>
-                            <li><a class="dropdown-item" href="#">Strategy</a></li>
-                            <li><a class="dropdown-item" href="#">Role-playing (RPG)</a></li>
-                            <li><a class="dropdown-item" href="#">Sports</a></li>
-                            <li><a class="dropdown-item" href="#">Racing</a></li>
-                            <li><a class="dropdown-item" href="#">Simulation</a></li>
-                            <li><a class="dropdown-item" href="#">Indie</a></li>
+                            {% for category in categories %}
+                                <li><a class="dropdown-item" href="{% url 'blog_app:article_category_list' category.slug %}">{{ category.name }}</a></li>
+                            {% endfor %}
                         </ul>
                     </li>
-                    {% if user.is_staff %}
-                        <!-- Mostrar estos elementos solo si el usuario es administrador -->
-                        <li class="nav-item"><a class="nav-link" href="{% url 'blog_app:category_list' %}">Category List</a></li>
+                    {% if user.is_authenticated and user.is_staff %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Administrator Options
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- Mostrar estos elementos solo si el usuario es administrador -->
+                                <li class="nav-item"><a class="nav-link" href="{% url 'blog_app:category_list' %}">Category List</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'blog_app:article_created' %}">Add Article</a></li>
+                            </ul>
+                            
+                        </li>
+                        
                     {% endif %}
                 </ul>
                 <ul class="navbar-nav">
                     <!-- Botón de inicio de sesión y registro -->
                     {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'blog_app:message_created' %}">Message</a>
+                        </li>
                         <!-- Si el usuario está autenticado, mostrar nombre de usuario, avatar y botón de logout -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -47,7 +55,7 @@
                                 {{ user.username }}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'blog_app:profile_user' %}">Profile</a></li>
                                 <li><a class="dropdown-item" href="{% url 'blog_app:logout_user' %}">Logout</a></li>
                             </ul>
                         </li>

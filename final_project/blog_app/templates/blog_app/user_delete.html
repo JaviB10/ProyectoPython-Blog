@@ -1,0 +1,17 @@
+{% extends "blog_app/index.html" %}
+{% load static %}
+
+{% block content_form %}
+    <div class="bg-info d-flex justify-content-center align-items-center vh-100">
+        <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 25rem">
+        <div class="text-center fs-4 fw-bold mb-4">Are you sure you want to delete your user "{{ user.username }}"?</div>
+        <div class="text-center">
+            <p class="text-muted">Deleting your user is irreversible and will remove associated content.</p>
+        </div>
+        <form action="{% url 'blog_app:user_delete' pk=user.pk %}" method="POST">
+            {% csrf_token %}
+            <button class="btn btn-danger text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Delete</button>
+        </form>
+        
+    </div>
+{% endblock content_form %}

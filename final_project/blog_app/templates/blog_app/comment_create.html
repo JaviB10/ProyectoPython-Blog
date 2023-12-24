@@ -1,0 +1,13 @@
+{% extends "blog_app/index.html" %}
+
+{% block content_title %}
+    <h1>Add Cpomment</h1>
+{% endblock content_title %}
+
+{% block content_form %}
+<form action="{% url 'blog_app:comment_created' pk=article.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">ADD</button>
+</form>
+{% endblock content_form %}

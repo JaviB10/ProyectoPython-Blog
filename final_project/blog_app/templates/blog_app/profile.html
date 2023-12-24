@@ -1,0 +1,66 @@
+{% extends "blog_app/index.html" %}
+{% load static %}
+
+{% block content_form %}
+<div class="bg-info d-flex justify-content-center align-items-center vh-100">
+    <div class="bg-white p-4 rounded-5 text-secondary shadow" style="width: 25rem">
+        <div class="text-center fs-1 fw-bold">PROFILE</div>
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <a href="{% url 'blog_app:avatar_update' pk=profile.user.avatar.pk %}">
+                    <img src="{{ profile.user.avatar.image.url }}" alt="Avatar" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+                </a>
+            </div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Username</th>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">First Name</th>
+                        <td>{{ user.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Last Name</th>
+                        <td>{{ user.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Date of Birth</th>
+                        <td>{{ user.date_of_birth }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end pb-2">
+                <a href="{% url 'blog_app:user_update' pk=user.pk %}" class="me-1">
+                    <img src="{% static 'blog_app/assets/image/update-icon.svg' %}" alt="update-icon" style="height: 1.5rem"/>
+                </a>
+            </div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td>{{ profile.description }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Website</th>
+                        <td>{{ profile.website }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'blog_app:profile_update' pk=profile.pk %}" class="me-1">
+                    <img src="{% static 'blog_app/assets/image/update-icon.svg' %}" alt="update-icon" style="height: 1.5rem"/>
+                </a>
+                <a href="{% url 'blog_app:user_delete' pk=user.pk %}">
+                    <img src="{% static 'blog_app/assets/image/delete-icon.svg' %}" alt="delete-icon" style="height: 1.5rem"/>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content_form %}

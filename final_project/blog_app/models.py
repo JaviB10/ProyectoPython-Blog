@@ -13,8 +13,15 @@ class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        # Asignar el rol de administrador al usuario
-        self.is_staff = False
+        # Verificar si ya existe el usuario
+        if not self.pk:
+            # Si es un usuario nuevo, asignar el rol de administrador
+            self.is_staff = False
+        else:
+            # Si el usuario ya existe, obtener el objeto de la base de datos y actualizar is_staff
+            db_user = User.objects.get(pk=self.pk)
+            self.is_staff = db_user.is_staff
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -23,7 +30,13 @@ class User(AbstractUser):
 class Avatar(models.Model):
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    image = models.FileField(upload_to="media/avatars", null=True, blank=True, default='avatars/default_avatar.png')
+    image = models.FileField(null=True, blank=True, default='default_avatar.png')
+
+    def save(self, *args, **kwargs):
+        # Si el campo image está vacío, asigna la imagen predeterminada
+        if not self.image:
+            self.image = 'default_avatar.png'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user} - {self.image}"

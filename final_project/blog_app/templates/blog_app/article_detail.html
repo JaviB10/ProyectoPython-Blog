@@ -1,0 +1,45 @@
+{% extends "blog_app/index.html" %}
+{% load static %}
+
+{% block content_form %}
+    <div class="bg-info d-flex justify-content-center align-items-center vh-100">
+        <div class="row">
+                <div>
+                    <div class="card text-dark efecto border-dark h-100">
+                        <div class="card-body text-center text-light bg-dark h-25">
+                            <p class="card-text">{{ article.title }}</p>
+                        </div>
+                        <div class="card-body h-50">
+                            <p class="card-text">{{ article.content }}</p>
+                        </div>
+                        <div class="card-body text-dark">
+                            {% for category in article.categories.all %}
+                                <p class="badge bg-dark text-light w-25 ms-1">{{ category.name }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="card-footer text-muted d-flex justify-content-between">
+                            <span>{{ article.author.username }}</span>
+                            <span>{{ article.date }}</span>
+                        </div>
+                    </div>
+                </div>
+                <a class="badge bg-info text-dark w-25 ms-auto me-1 text-decoration-none" href="{% url 'blog_app:comment_created' pk=article.pk %}">Agregar Comentario</a>
+                
+                    <table class="table table-bordered">
+                        <tbody>
+                            {% for comment in comments %}
+                                <tr>
+                                    <th scope="row">{{ comment.author.username }} dijo:</th>
+                                    <td>{{ comment.content }}</td>
+                                    <td>{{ comment.date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                
+                
+        </div>
+    </div>
+{% endblock content_form %}
+
+
