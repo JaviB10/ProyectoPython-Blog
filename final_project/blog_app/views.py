@@ -16,10 +16,10 @@ from .forms import *
 def home_view(request):
     articles = Article.objects.all()
     categories = Category.objects.all()
-    return render(request, 'blog_app/home.html', {'user':request.user, 'articles': articles, 'categories': categories})
+    return render(request, 'blog_app/home.html', {'user': request.user, 'articles': articles, 'categories': categories})
 
 def about_view(request):
-    return render(request, 'blog_app/about.html')
+    return render(request, 'blog_app/about.html', {'user': request.user})
 
 def login_view(request):
 
@@ -115,6 +115,11 @@ class CategoryDeleteView(DeleteView):
     template_name = 'blog_app/category_delete.html'  # Reemplaza con la ruta correcta a tu template
     success_url = reverse_lazy('blog_app:category_list')  # Reemplaza con el nombre de tu URL de éxito
 
+class UserListView(ListView):
+    model = User
+    template_name = 'blog_app/user_list.html'  # Reemplaza con la ruta correcta a tu template
+    context_object_name = 'users'
+
 @method_decorator(login_required, name='dispatch')
 class UserProfileDetailView(DetailView):
     model = Profile
@@ -173,13 +178,14 @@ class AvatarUpdateView(LoginRequiredMixin, UpdateView):
             return HttpResponseRedirect(self.get_success_url())  # Redirige sin procesar el formulario
         return super().form_valid(form)
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleForm
     template_name = 'blog_app/article_create.html'  # Reemplaza con la ruta correcta a tu template
     success_url = reverse_lazy('blog_app:home')  # Reemplaza con el nombre de tu URL de éxito
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 class ArticleListView(ListView):
@@ -205,6 +211,11 @@ class ArticleDetailView(DetailView):
         comments = Comment.objects.filter(article=self.object, is_approved=True)
         context['comments'] = comments
         return context
+
+class ArticleDeleteView(DeleteView):
+    model = Article
+    template_name = 'blog_app/article_delete.html'  # Reemplaza con la ruta correcta a tu template
+    success_url = reverse_lazy('blog_app:article_list')  # Reemplaza con el nombre de tu URL de éxito
     
 @method_decorator(login_required, name='dispatch')
 class CommentCreateView(CreateView):
@@ -250,17 +261,19 @@ class ArticleCategoryListView(ListView):
 class MessageCreateView(CreateView):
     model = Message
     form_class = MessageForm
-    template_name = 'blog_app/message_create.html'  # Reemplaza con la ruta correcta a tu template
-    success_url = reverse_lazy('blog_app:home')  # Reemplaza con el nombre de tu URL de éxito
+    template_name = 'blog_app/message_create.html'
+    success_url = reverse_lazy('blog_app:message_list')
 
     def get_form_kwargs(self):
         kwargs = super(MessageCreateView, self).get_form_kwargs()
         # Pasa el usuario logueado como el remitente al formulario
         kwargs['sender'] = self.request.user
+
         return kwargs
 
     def form_valid(self, form):
         form.instance.sender = self.request.user
+        # Puedes realizar otras acciones necesarias aquí antes de guardar
         return super().form_valid(form)
 
 class MessageListView(ListView):

@@ -2,63 +2,56 @@
 {% load static %}
 
 {% block content_form %}
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="bg-white p-4 rounded-5 text-secondary shadow" style="width: 25rem">
-        <div class="text-center fs-1 fw-bold">PROFILE</div>
+<div class="container vh-100">
+    <div class="bg-white p-4 rounded-5 text-secondary shadow">
         <div class="card-body">
             <div class="text-center mb-4">
                 <a href="{% url 'blog_app:avatar_update' pk=profile.user.avatar.pk %}">
-                    <img src="{{ profile.user.avatar.image.url }}" alt="Avatar" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+                    <img src="{{ profile.user.avatar.image.url }}" alt="Avatar" class="img-fluid rounded-circle" style="width: 300px; height: 300px;">
                 </a>
             </div>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <th scope="row">Username</th>
+                        <th class="text-center" style="width: 15%" scope="row">Username</th>
                         <td>{{ user.username }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">First Name</th>
+                        <th class="text-center" style="width: 15%" scope="row">First Name</th>
                         <td>{{ user.first_name }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Last Name</th>
+                        <th class="text-center" style="width: 15%" scope="row">Last Name</th>
                         <td>{{ user.last_name }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Email</th>
+                        <th class="text-center" style="width: 15%" scope="row">Email</th>
                         <td>{{ user.email }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Date of Birth</th>
+                        <th class="text-center" style="width: 15%" scope="row">Date of Birth</th>
                         <td>{{ user.date_of_birth }}</td>
                     </tr>
                 </tbody>
             </table>
             <div class="d-flex justify-content-end pb-2">
-                <a href="{% url 'blog_app:user_update' pk=user.pk %}" class="me-1">
-                    <img src="{% static 'blog_app/assets/image/update-icon.svg' %}" alt="update-icon" style="height: 1.5rem"/>
-                </a>
+                <a class="btn btn-primary fuente" href="{% url 'blog_app:user_update' pk=user.pk %}" class="me-1">Edit</a>
             </div>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <th scope="row">Description</th>
+                        <th class="text-center" style="width: 15%" scope="row">Description</th>
                         <td>{{ profile.description }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Website</th>
-                        <td>{{ profile.website }}</td>
+                        <th class="text-center" style="width: 15%" scope="row">Website</th>
+                        <td><a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a></td>
                     </tr>
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
-                <a href="{% url 'blog_app:profile_update' pk=profile.pk %}" class="me-1">
-                    <img src="{% static 'blog_app/assets/image/update-icon.svg' %}" alt="update-icon" style="height: 1.5rem"/>
-                </a>
-                <a href="{% url 'blog_app:user_delete' pk=user.pk %}">
-                    <img src="{% static 'blog_app/assets/image/delete-icon.svg' %}" alt="delete-icon" style="height: 1.5rem"/>
-                </a>
+                <a class="btn btn-primary me-1 fuente" href="{% url 'blog_app:profile_update' pk=profile.pk %}" class="me-1">Edit</a>
+                <a class="btn btn-danger fuente" href="{% url 'blog_app:user_delete' pk=user.pk %}">Delete</a>
             </div>
         </div>
     </div>

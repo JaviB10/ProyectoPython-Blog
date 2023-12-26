@@ -13,15 +13,6 @@ class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        # Verificar si ya existe el usuario
-        if not self.pk:
-            # Si es un usuario nuevo, asignar el rol de administrador
-            self.is_staff = False
-        else:
-            # Si el usuario ya existe, obtener el objeto de la base de datos y actualizar is_staff
-            db_user = User.objects.get(pk=self.pk)
-            self.is_staff = db_user.is_staff
-
         super().save(*args, **kwargs)
 
     def __str__(self):

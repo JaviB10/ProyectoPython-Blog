@@ -2,16 +2,21 @@
 {% load static %}
 
 {% block content_form %}
-    <div class="d-flex justify-content-center align-items-center vh-100">
-        <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 25rem">
-        <div class="text-center fs-4 fw-bold mb-4">Are you sure you want to delete the category "{{ category.name }}"?</div>
+<div class="container mt-5 pt-5 vh-100">
+    <div class="bg-white p-5 rounded-5 text-secondary shadow">
+        <div class="text-center fs-4 fw-bold mb-4">
+            <h2>Are you sure you want to delete the category "{{ category.name }}"?</h2>
+        </div>
         <div class="text-center">
             <p class="text-muted">Deleting a category is irreversible and will remove associated content.</p>
         </div>
-        <form action="{% url 'blog_app:category_delete' pk=category.pk %}" method="POST">
-            {% csrf_token %}
-            <button class="btn btn-danger text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Delete</button>
-        </form>
-        
+        <div>
+            <a href="{% url 'blog_app:category_list' %}"><button class="btn btn-dark text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Back</button></a>
+            <form action="{% url 'blog_app:category_delete' pk=category.pk %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-danger text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Delete</button>
+            </form>
+        </div>
     </div>
+</div>
 {% endblock content_form %}

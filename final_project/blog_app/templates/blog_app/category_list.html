@@ -2,34 +2,32 @@
 {% load static %}
 
 {% block content_form %}
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 25rem">
-        <div class="d-flex justify-content-center">
-            <img src="{% static 'blog_app/assets/image/list-icon.svg' %}" alt="list-icon" style="height: 7rem"/>
-        </div>
-        <div class="text-center fs-1 fw-bold">Categories</div>
-        
-        <div class="d-flex justify-content-end">
-            <a href="{% url 'blog_app:category_created' %}">
-                <img src="{% static 'blog_app/assets/image/add-category-icon.svg' %}" alt="add-icon" style="height: 2rem"/>
-            </a>
-        </div>
-
-        {% for category in categories %}
-            <div class="input-group mt-4">
-                <div class="input-group-text bg-info d-flex justify-content-between align-items-center" style="width: 100%;">
-                    {{ category.name }}
-                    <div class="d-flex justify-content-end">
-                        <a href="{% url 'blog_app:category_update' pk=category.pk %}" class="me-1">
-                            <img src="{% static 'blog_app/assets/image/update-icon.svg' %}" alt="update-icon" style="height: 2rem"/>
-                        </a>
-                        <a href="{% url 'blog_app:category_delete' pk=category.pk %}">
-                            <img src="{% static 'blog_app/assets/image/delete-icon.svg' %}" alt="delete-icon" style="height: 2rem"/>
-                        </a>
-                    </div>
-                </div>
+    <div class="container vh-100">
+        <div class="row">
+            <h1 class="text-center mb-3">Categories</h1>
+            <div class="d-flex justify-content-end">
+                <a class="mb-2" href="{% url 'blog_app:category_created' %}">
+                    <img src="{% static 'blog_app/assets/image/add-category-icon.svg' %}" alt="add-icon" style="height: 2rem"/>
+                </a>
             </div>
-        {% endfor %}
+            {% for category in categories %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th class="w-75">{{ category.name }}</th>
+                                <td class="d-flex justify-content-around">
+                                    <a class="btn btn-primary me-2 fuente" href="{% url 'blog_app:category_update' pk=category.pk %}">Edit</a>
+                                    <a class="btn btn-danger fuente" href="{% url 'blog_app:category_delete' pk=category.pk %}">Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            {% empty %}
+                <p>Don't have categories.</p>
+            {% endfor %}
+        </div>
     </div>
-</div>
 {% endblock content_form %}
+

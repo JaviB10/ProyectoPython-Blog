@@ -1,14 +1,20 @@
 {% extends "blog_app/index.html" %}
 
 {% block content_form %}
-    <div class="d-flex justify-content-center align-items-center vh-100">
-        <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 25rem">
-        <div class="text-center fs-1 fw-bold">Message</div>
+    <div class="container vh-100">
+        <div class="bg-white p-5 rounded-5 text-secondary shadow">
+        <h1 class="text-center">Message</h1>
+        
         <form action="{% url 'blog_app:message_created' %}" method="POST" class="mb-4">
             {% csrf_token %}
-            <div class="form-group">
-                {{ form.receiver.label_tag }}
-                {{ form.receiver }}
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">For</label>
+                <select class="form-select" id="inputGroupSelect01" name="{{ form.receiver.name }}">
+                    <option selected>Choose...</option>
+                    {% for user in form.receiver %}
+                        <option value="{{ user.pk }}">{{ user }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="input-group mt-4">
                 <input
@@ -18,8 +24,9 @@
                     placeholder="Message"
                 />
             </div>
-            <div>
-                <button class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Send</button>
+            <div class="d-flex justify-content-end mt-2">
+                <a class="btn btn-dark me-1 fuente" href="{% url 'blog_app:message_list' %}">Back</a>
+                <button class="btn btn-info fuente" type="submit">Send</button>
             </div>
         </form>
     </div>

@@ -1,79 +1,85 @@
 {% load static %}
 
 {% block content_navbar %}
-<nav class="navbar navbar-expand-lg navbar-light bg-info">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'blog_app:home' %}">
-            <img src="{% static 'blog_app/assets/image/logo-icon.svg' %}" alt="login-icon" style="height: 2rem"/>
-        </a>
+    <nav class="navbar navbar-expand-lg navbar-light mb-5">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-2" href="{% url 'blog_app:home' %}">
+                <img src="{% static 'blog_app/assets/image/logo-icon.svg' %}" alt="login-icon" style="height: 2rem"/>
+            </a>
 
-        <!-- Botón del menú hamburguesa -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <!-- Botón del menú hamburguesa -->
+            <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon ms-2"></span>
+            </button>
 
-        <div class="navbar-collapse collapse ms-auto" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'blog_app:home'%}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'blog_app:about'%}">About</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Categories
-                    </a>
-                    <ul class="dropdown-menu">
-                        {% for category in categories %}
-                            <li><a class="dropdown-item" href="{% url 'blog_app:article_category_list' category.slug %}">{{ category.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                <!-- ... Otros elementos de menú ... -->
-            </ul>
-
-            <!-- Elementos del menú de administrador -->
-            {% if user.is_authenticated and user.is_staff %}
-                <ul class="navbar-nav">
+            <!-- Contenido del menú desplegable -->
+            <div class="navbar-collapse collapse ms-2" id="navbarNavDropdown">
+                <ul class="navbar-nav mx-auto"> <!-- Centra los elementos -->
+                    <!-- Elementos del centro -->
+                    <li class="nav-item">
+                        <a class="nav-link active fuente" aria-current="page" href="{% url 'blog_app:home'%}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active color fuente" href="{% url 'blog_app:about'%}">About</a>
+                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Administrator Options
+                        <a class="nav-link active dropdown-toggle fuente" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'blog_app:category_list' %}">Category List</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'blog_app:article_created' %}">Add Article</a></li>
+                            {% for category in categories %}
+                                <li><a class="dropdown-item fuente" href="{% url 'blog_app:article_category_list' category.slug %}">{{ category.name }}</a></li>
+                            {% endfor %}
                         </ul>
                     </li>
+                    <!-- Elementos del menú de administrador -->
+                    {% if user.is_authenticated and user.is_staff %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle fuente" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Administrator Options
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item"><a class="nav-link fuente" href="{% url 'blog_app:article_list' %}">Article List</a></li>
+                                {% if user.is_superuser %}
+                                    <li class="nav-item"><a class="nav-link fuente" href="{% url 'blog_app:category_list' %}">Category List</a></li>
+                                    <li class="nav-item"><a class="nav-link fuente" href="{% url 'blog_app:user_list' %}">User List</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
                 </ul>
-            {% endif %}
 
-            <!-- Elementos del menú del usuario autenticado -->
-            {% if user.is_authenticated %}
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% if user.avatar %}
-                                <img src="{{ user.avatar.image.url }}" width="30" height="30" class="rounded-circle">
-                            {% endif %}
-                            {{ user.username }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'blog_app:profile_user' %}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'blog_app:message_list' %}">Message View</a></li>
-                            <li><a class="dropdown-item" href="{% url 'blog_app:message_created' %}">Message Send</a></li>
-                            <li><a class="dropdown-item" href="{% url 'blog_app:logout_user' %}">Logout</a></li>
+                <!-- Elementos a la derecha -->
+                <div class="d-flex">
+                    <!-- Elementos del menú del usuario autenticado -->
+                    {% if user.is_authenticated %}
+                        <ul class="navbar-nav me-5">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle fuente" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {% if user.avatar %}
+                                        <img src="{{ user.avatar.image.url }}" width="30" height="30" class="rounded-circle">
+                                        {% else %}
+                                            <img src="{% static 'blog_app/assets/image/default_avatar.png' %}" width="30" height="30" class="rounded-circle">
+                                    {% endif %}
+                                    {{ user.username }}
+                                </a>
+                                <ul class="dropdown-menu me-5">
+                                    <li><a class="dropdown-item fuente" href="{% url 'blog_app:profile_user' %}">Profile</a></li>
+                                    <li><a class="dropdown-item fuente" href="{% url 'blog_app:message_list' %}">Messages</a></li>
+                                    <li><a class="dropdown-item fuente" href="{% url 'blog_app:logout_user' %}">Logout</a></li>
+                                </ul>
+                            </li>
                         </ul>
-                    </li>
-                </ul>
-            {% else %}
-                <!-- Elementos del menú para usuarios no autenticados -->
-                <div class="d-flex flex-row">
-                    <a class="btn btn-light me-1" href="{% url 'blog_app:login_user' %}">Sign in</a>
-                    <a class="btn btn-light" href="{% url 'blog_app:register_user' %}">Sign up</a>
+                    {% else %}
+                        <!-- Elementos del menú para usuarios no autenticados -->
+                        <div class="d-flex flex-row">
+                            <a class="btn btn-light me-1 fuente" href="{% url 'blog_app:login_user' %}">Sign in</a>
+                            <a class="btn btn-light me-2 fuente" href="{% url 'blog_app:register_user' %}">Sign up</a>
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 {% endblock content_navbar %}
+

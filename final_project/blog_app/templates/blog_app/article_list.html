@@ -1,31 +1,48 @@
+{% extends "blog_app/index.html" %}
+{% load static %}
+
 {% block content_form %}
-    <div class="container mt-5 pt-5">
+    <div class="container vh-100">
         <div class="row">
+            <h1 class="text-center mb-3">Articles</h1>
+            <div class="d-flex justify-content-end">
+                <a class="mb-2" href="{% url 'blog_app:article_created' %}">
+                    <img src="{% static 'blog_app/assets/image/add-category-icon.svg' %}" alt="add-icon" style="height: 2rem"/>
+                </a>
+            </div>
             {% for article in articles %}
-                <div class="col-12 col-md-3 my-3">
-                    <div class="card text-dark efecto border-dark h-100">
-                        <div class="card-body text-center text-light bg-dark h-25">
-                            <p class="card-text">{{ article.title }}</p>
-                        </div>
-                        <div class="card-body h-50">
-                            <p class="card-text">{{ article.short_content }}</p>
-                        </div>
-                        <div class="card-body text-dark">
-                            {% for category in article.categories.all %}
-                                <p class="badge bg-dark text-light w-25 ms-1">{{ category.name }}</p>
-                            {% endfor %}
-                            <a class="badge bg-info text-dark w-25 ms-auto me-1 text-decoration-none" href="{% url 'blog_app:article_detail' pk=article.id %}">Ver Mas</a>
-                        </div>
-                        <div class="card-footer text-muted d-flex justify-content-between">
-                            <span>{{ article.author.username }}</span>
-                            <span>{{ article.date }}</span>
-                        </div>
+                {% if article.author == request.user or request.user.is_superuser %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 15%">Title</th>
+                                    <th class="text-center" style="width: 15%">User</th>
+                                    <th class="text-center" style="width: 15%">Category</th>
+                                    <th class="text-center" style="width: 15%">Date Joined</th>
+                                    <th class="text-center" style="width: 15%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="text-center" style="width: 15%">{{ article.title }}</th>
+                                    <td class="text-center" style="width: 15%">{{ article.author.username }}</td>
+                                    {% for category in article.categories.all %}
+                                        <td class="text-center" style="width: 15%">{{ category.name }}</td>
+                                    {% endfor %}
+                                    <td class="text-center" style="width: 15%">{{ article.date }}</td>
+                                    <td class="text-center" style="width: 15%">
+                                        <a class="btn btn-info fuente" href="{% url 'blog_app:article_detail' pk=article.pk %}">See More</a>
+                                        <a class="btn btn-danger fuente" href="{% url 'blog_app:article_delete' pk=article.pk %}">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
+                {% endif %}
             {% empty %}
-                <p>No hay artículos disponibles.</p>
+                <p>Don't have articles.</p>
             {% endfor %}
         </div>
     </div>
 {% endblock content_form %}
-    

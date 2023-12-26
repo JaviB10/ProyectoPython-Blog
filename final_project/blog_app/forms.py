@@ -52,7 +52,7 @@ class AvatarForm(forms.ModelForm):
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ['title', 'author', 'content', 'categories', 'is_published', 'image']  # Reemplaza 'image' con el campo real que almacena la imagen del avatar
+        fields = ['title', 'content', 'categories', 'image']  # Reemplaza 'image' con el campo real que almacena la imagen del avatar
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

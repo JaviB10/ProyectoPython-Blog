@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
+/** CSS Valores por defecto */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/** Fuentes para las letras */
+h1, h2, h3, p, 
+.fuente {
+    font-family: 'Montserrat', sans-serif;
+}

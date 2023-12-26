@@ -1,6 +1,59 @@
 {% extends "blog_app/index.html" %}
+{% load static %}
 
-{% block content_form %}
-    {% include "blog_app/article_list.html" %}
-{% endblock content_form %}
-
+{% block content_home %}
+    <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'blog_app/assets/image/devilmaycry-banner.jpg' %}" class="w-100" alt="banner-game" style="object-fit: cover; object-position: center;">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'blog_app/assets/image/dead-space-banner.jpg' %}" class="w-100" alt="banner-game" style="object-fit: cover; object-position: center;">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'blog_app/assets/image/mortal-kombat-banner.jpg' %}" class="w-100" alt="banner-game" style="object-fit: cover; object-position: center;">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'blog_app/assets/image/doom-eternal-banner.jpg' %}" class="w-100" alt="banner-game" style="object-fit: cover; object-position: center;">
+        </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    {% block content_articles %}
+        <div class="container mt-5 pt-5">
+            <div class="row">
+                {% for article in articles %}
+                    <div class="col-12 col-md-3 my-3">
+                        <div class="card text-dark efecto border-dark h-100">
+                            <div class="card-body text-center text-light bg-dark h-25">
+                                <p class="card-text">{{ article.title }}</p>
+                            </div>
+                            <div class="card-body h-50">
+                                <p class="card-text">{{ article.short_content }}</p>
+                            </div>
+                            <div class="card-body text-dark">
+                                {% for category in article.categories.all %}
+                                    <p class="badge bg-dark text-light w-25 ms-1">{{ category.name }}</p>
+                                {% endfor %}
+                                <a class="badge bg-info text-dark w-25 ms-auto me-1 text-decoration-none" href="{% url 'blog_app:article_detail' pk=article.id %}">Ver Mas</a>
+                            </div>
+                            <div class="card-footer text-muted d-flex justify-content-between">
+                                <span>{{ article.author.username }}</span>
+                                <span>{{ article.date }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Don't have articles.</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock content_articles %}
+{% endblock content_home %}

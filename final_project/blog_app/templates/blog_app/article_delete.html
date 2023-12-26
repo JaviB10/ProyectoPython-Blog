@@ -1,0 +1,22 @@
+{% extends "blog_app/index.html" %}
+{% load static %}
+
+{% block content_form %}
+<div class="container mt-5 pt-5 vh-100">
+    <div class="bg-white p-5 rounded-5 text-secondary shadow">
+        <div class="text-center fs-4 fw-bold mb-4">
+            <h2>Are you sure you want to delete the article "{{ article.title }}"?</h2>
+        </div>
+        <div class="text-center">
+            <p class="text-muted">Deleting a article is irreversible and will remove associated content.</p>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-dark fuente me-2" href="{% url 'blog_app:article_list' %}">Back</a>
+            <form action="{% url 'blog_app:article_delete' pk=article.pk %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-danger fuente" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content_form %}

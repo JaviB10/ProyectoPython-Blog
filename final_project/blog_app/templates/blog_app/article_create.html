@@ -2,17 +2,44 @@
 {% load static %}
 
 {% block content_form %}
-    <div class="d-flex justify-content-center align-items-center vh-100">
-        <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 25rem">
-        <div class="d-flex justify-content-center">
-            <img src="{% static 'blog_app/assets/image/add-icon.svg' %}" alt="add-icon" style="height: 7rem"/>
+    <div class="container mt-5 pt-5 vh-100">
+        <div class="bg-white p-5 rounded-5 text-secondary shadow">
+            <h1 class="text-center mb-3">Create Article</h1>
+            <div>
+                <form method="post" enctype="multipart/form-data" action="{% url 'blog_app:article_created' %}">
+                    {% csrf_token %}
+                    <div class="input-group mt-4">
+                        <input
+                            class="form-control bg-light"
+                            type="text"
+                            name="{{ form.title.name }}"
+                            placeholder="Title"
+                        />
+                    </div>
+                    <div class="input-group mt-4">
+                        <textarea
+                            class="form-control bg-light"
+                            id="{{ form.content.id_for_label }}"
+                            name="{{ form.content.name }}"
+                            rows="5"
+                            placeholder="Enter your content here..."
+                        ></textarea>
+                    </div>
+                    <div class="mt-4">
+                        {{ form.categories }}
+                    </div>
+                    <div class="mt-4">
+                        {{ form.is_publised }}
+                    </div>
+                    <div class="mt-4">
+                        <input class="form-control form-control-sm" id="formFileSm" type="file" name="{{ form.image.name }}">
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                        <a class="btn btn-dark fuente me-2" href="{% url 'blog_app:article_list' %}">Back</a>
+                        <button class="btn btn-info fuente" type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="text-center fs-1 fw-bold">Add Article</div>
-        <form method="post" enctype="multipart/form-data" action="{% url 'blog_app:article_created' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit</button>
-        </form>
-        
     </div>
 {% endblock content_form %}

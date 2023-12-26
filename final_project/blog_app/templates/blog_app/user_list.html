@@ -1,0 +1,44 @@
+{% extends "blog_app/index.html" %}
+{% load static %}
+
+{% block content_form %}
+    <div class="container vh-100">
+        <div class="row">
+            <h1 class="text-center mb-3">Users</h1>
+            {% for user in users %}
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 15%">Username</th>
+                            <th class="text-center" style="width: 15%">Name</th>
+                            <th class="text-center" style="width: 15%">Email</th>
+                            <th class="text-center" style="width: 15%">Last Login</th>
+                            <th class="text-center" style="width: 15%">Date Joined</th>
+                            <th class="text-center" style="width: 15%">Is Staff</th>
+                            <th class="text-center" style="width: 15%">Is Superuser</th>
+                            <th class="text-center" style="width: 15%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="text-center" style="width: 15%">{{ user.username }}</th>
+                            <td class="text-center" style="width: 15%">{{ user.first_name }} {{ user.last_name }}</td>
+                            <td class="text-center" style="width: 15%">{{ user.email }}</td>
+                            <td class="text-center" style="width: 15%">{{ user.last_login }}</td>
+                            <td class="text-center" style="width: 15%">{{ user.date_joined }}</td>
+                            <td class="text-center" style="width: 15%">{{ user.is_staff }}</td>
+                            <td class="text-center" style="width: 15%">{{ user.is_superuser }}</td>
+                            <td class="text-center" style="width: 15%">
+                                <a class="btn btn-danger fuente" href="{% url 'blog_app:user_delete' pk=user.pk %}">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% empty %}
+                <p>Don't have users.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content_form %}
