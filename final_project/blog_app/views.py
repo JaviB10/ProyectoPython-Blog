@@ -9,6 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ValidationError
 from .forms import *
 
 # Create your views here.
@@ -94,7 +95,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UserForm
     template_name = 'blog_app/user_update.html'
     success_url = reverse_lazy('blog_app:profile_user')
-
+    
     def form_valid(self, form):
         try:
             return super().form_valid(form)

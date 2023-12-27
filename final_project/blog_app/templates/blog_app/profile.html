@@ -17,42 +17,48 @@
                         <td>{{ user.username }}</td>
                     </tr>
                     <tr>
-                        <th class="text-center" style="width: 15%" scope="row">First Name</th>
-                        <td>{{ user.first_name }}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-center" style="width: 15%" scope="row">Last Name</th>
-                        <td>{{ user.last_name }}</td>
-                    </tr>
-                    <tr>
                         <th class="text-center" style="width: 15%" scope="row">Email</th>
                         <td>{{ user.email }}</td>
                     </tr>
-                    <tr>
-                        <th class="text-center" style="width: 15%" scope="row">Date of Birth</th>
-                        <td>{{ user.date_of_birth }}</td>
-                    </tr>
+                    {% if not profile.user.is_superuser %}
+                        <tr>
+                            <th class="text-center" style="width: 15%" scope="row">First Name</th>
+                            <td>{{ user.first_name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center" style="width: 15%" scope="row">Last Name</th>
+                            <td>{{ user.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center" style="width: 15%" scope="row">Date of Birth</th>
+                            <td>{{ user.date_of_birth }}</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
-            <div class="d-flex justify-content-end pb-2">
-                <a class="btn btn-primary fuente" href="{% url 'blog_app:user_update' pk=user.pk %}" class="me-1">Edit</a>
-            </div>
-            <table class="table table-bordered">
-                <tbody>
-                    <tr>
-                        <th class="text-center" style="width: 15%" scope="row">Description</th>
-                        <td>{{ profile.description }}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-center" style="width: 15%" scope="row">Website</th>
-                        <td><a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-end">
-                <a class="btn btn-primary me-1 fuente" href="{% url 'blog_app:profile_update' pk=profile.pk %}" class="me-1">Edit</a>
-                <a class="btn btn-danger fuente" href="{% url 'blog_app:user_delete' pk=user.pk %}">Delete</a>
-            </div>
+            {% if not profile.user.is_superuser %}
+                <div class="d-flex justify-content-end pb-2">
+                    <a class="btn btn-primary fuente" href="{% url 'blog_app:user_update' pk=user.pk %}" class="me-1">Edit</a>
+                </div>
+            {% endif %}
+            {% if not profile.user.is_superuser %}
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th class="text-center" style="width: 15%" scope="row">Description</th>
+                            <td>{{ profile.description }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center" style="width: 15%" scope="row">Website</th>
+                            <td><a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-primary me-1 fuente" href="{% url 'blog_app:profile_update' pk=profile.pk %}" class="me-1">Edit</a>
+                    <a class="btn btn-danger fuente" href="{% url 'blog_app:user_delete' pk=user.pk %}">Delete</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
