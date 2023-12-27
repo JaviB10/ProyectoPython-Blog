@@ -6,10 +6,8 @@ from django.utils.text import slugify
 from django.conf import settings
 
 # Create your models here.
-
+# Modelos relacionados con la autenticación de usuarios
 class User(AbstractUser):
-
-    # Campos adicionales
     date_of_birth = models.DateField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -19,7 +17,6 @@ class User(AbstractUser):
         return self.username
 
 class Avatar(models.Model):
-
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.FileField(null=True, blank=True, default='default_avatar.png')
 
@@ -46,13 +43,12 @@ def save_user_avatar(sender, instance, **kwargs):
         pass
 
 class Profile(models.Model):
-
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     description = models.CharField(max_length=2200, default='')
     website = models.URLField(blank=True, default='')
 
     def __str__(self):
-        return f'Profile of {self.user.username}'
+        return f'{self.user.username}'
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -67,8 +63,8 @@ def save_user_profile(sender, instance, **kwargs):
         # Si no hay perfil, no hay nada que guardar
         pass
 
+# Modelos relacionados con el intercambio de mensajes
 class Message(models.Model):
-
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_messages')
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_messages')
     message = models.TextField()
@@ -77,13 +73,7 @@ class Message(models.Model):
     def __str__(self):
         return f'Message from {self.sender.username} to {self.receiver.username}'
 
-class Author(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.user.username
-
+# Otros modelos relacionados con la aplicación
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
@@ -96,6 +86,13 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+class Author(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
@@ -119,8 +116,6 @@ class Article(models.Model):
 
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return self.title
     def __str__(self):
         return self.title
 

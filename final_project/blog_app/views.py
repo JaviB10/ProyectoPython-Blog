@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404
 from .forms import *
 
 # Create your views here.
-
+# Vistas basadas en funciones
 def home_view(request):
     articles = Article.objects.all()
     categories = Category.objects.all()
@@ -83,65 +83,13 @@ def logout_view(request):
 def profile_view(request):
     return render(request, 'blog_app/profile.html')
 
-class CategoryListView(ListView):
-    model = Category
-    template_name = 'blog_app/category_list.html'  # Reemplaza con la ruta correcta a tu template
-    context_object_name = 'categories'
-
-class CategoryCreateView(CreateView):
-    model = Category
-    form_class = CategoryForm
-    template_name = 'blog_app/category_create.html'  # Reemplaza con la ruta correcta a tu template
-    success_url = reverse_lazy('blog_app:category_list')  # Reemplaza con el nombre de tu URL de éxito
-
-    def form_valid(self, form):
-        try:
-            return super().form_valid(form)
-        except IntegrityError:
-            return HttpResponse("Error: This category already exists.")
-
-class CategoryUpdateView(UpdateView):
-    model = Category
-    form_class = CategoryForm
-    template_name = 'blog_app/category_update.html'  # Reemplaza con la ruta correcta a tu template
-    success_url = reverse_lazy('blog_app:category_list')  # Reemplaza con el nombre de tu URL de éxito
-
-    def form_valid(self, form):
-        # Puedes agregar lógica adicional aquí si es necesario
-        return super().form_valid(form)
-
-class CategoryDeleteView(DeleteView):
-    model = Category
-    template_name = 'blog_app/category_delete.html'  # Reemplaza con la ruta correcta a tu template
-    success_url = reverse_lazy('blog_app:category_list')  # Reemplaza con el nombre de tu URL de éxito
-
-class UserListView(ListView):
+# Vistas basadas en clases
+class UserListView(LoginRequiredMixin, ListView):
     model = User
-    template_name = 'blog_app/user_list.html'  # Reemplaza con la ruta correcta a tu template
+    template_name = 'blog_app/user_list.html'
     context_object_name = 'users'
 
-@method_decorator(login_required, name='dispatch')
-class UserProfileDetailView(DetailView):
-    model = Profile
-    template_name = 'blog_app/profile.html'
-    context_object_name = 'profile'
-
-    def get_object(self, queryset=None):
-        # Devuelve el perfil asociado al usuario actual
-        return self.request.user.profile
-
-class UserProfileUpdateView(UpdateView):
-    model = Profile
-    form_class = ProfileForm
-    template_name = 'blog_app/profile_update.html'
-    success_url = reverse_lazy('blog_app:profile_user')
-
-    def form_valid(self, form):
-        # Llama al método padre para que realice la actualización estándar
-        response = super().form_valid(form)
-        return response
-
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserForm
     template_name = 'blog_app/user_update.html'
@@ -153,10 +101,31 @@ class UserUpdateView(UpdateView):
         except IntegrityError:
             return HttpResponse('The username is already in use. Please choose a different one.')
 
-class UserDeleteView(DeleteView):
+class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
-    template_name = 'blog_app/user_delete.html'  # Reemplaza con la ruta correcta a tu template
-    success_url = reverse_lazy('blog_app:home')  # Reemplaza con el nombre de tu URL de éxito
+    template_name = 'blog_app/user_delete.html'
+    success_url = reverse_lazy('blog_app:home')
+
+@method_decorator(login_required, name='dispatch')
+class UserProfileDetailView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = 'blog_app/profile.html'
+    context_object_name = 'profile'
+
+    def get_object(self, queryset=None):
+        # Devuelve el perfil asociado al usuario actual
+        return self.request.user.profile
+
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = 'blog_app/profile_update.html'
+    success_url = reverse_lazy('blog_app:profile_user')
+
+    def form_valid(self, form):
+        # Llama al método padre para que realice la actualización estándar
+        response = super().form_valid(form)
+        return response
 
 class AvatarUpdateView(LoginRequiredMixin, UpdateView):
     model = Avatar
@@ -178,23 +147,53 @@ class AvatarUpdateView(LoginRequiredMixin, UpdateView):
             return HttpResponseRedirect(self.get_success_url())  # Redirige sin procesar el formulario
         return super().form_valid(form)
 
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'blog_app/category_list.html'
+    context_object_name = 'categories'
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'blog_app/category_create.html'
+    success_url = reverse_lazy('blog_app:category_list')
+
+    def form_valid(self, form):
+        try:
+            return super().form_valid(form)
+        except IntegrityError:
+            return HttpResponse("Error: This category already exists.")
+
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'blog_app/category_update.html'
+    success_url = reverse_lazy('blog_app:category_list')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Category
+    template_name = 'blog_app/category_delete.html'
+    success_url = reverse_lazy('blog_app:category_list')
+
+class ArticleListView(LoginRequiredMixin, ListView):
+    model = Article
+    template_name = 'blog_app/article_list.html'
+    context_object_name = 'articles'
+
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleForm
-    template_name = 'blog_app/article_create.html'  # Reemplaza con la ruta correcta a tu template
-    success_url = reverse_lazy('blog_app:home')  # Reemplaza con el nombre de tu URL de éxito
+    template_name = 'blog_app/article_create.html'
+    success_url = reverse_lazy('blog_app:home')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class ArticleListView(ListView):
-    model = Article
-    template_name = 'blog_app/article_list.html'  # Reemplaza con la ruta correcta a tu template
-    context_object_name = 'articles'
-
-@method_decorator(login_required, name='dispatch')
-class ArticleDetailView(DetailView):
+class ArticleDetailView(LoginRequiredMixin, DetailView):
     model = Article
     template_name = 'blog_app/article_detail.html'
     context_object_name = 'article'
@@ -212,32 +211,10 @@ class ArticleDetailView(DetailView):
         context['comments'] = comments
         return context
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
     model = Article
-    template_name = 'blog_app/article_delete.html'  # Reemplaza con la ruta correcta a tu template
-    success_url = reverse_lazy('blog_app:article_list')  # Reemplaza con el nombre de tu URL de éxito
-    
-@method_decorator(login_required, name='dispatch')
-class CommentCreateView(CreateView):
-    model = Comment
-    form_class = CommentForm
-    template_name = 'blog_app/comment_create.html'  # Reemplaza con la ruta correcta a tu template
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        article = Article.objects.get(pk=self.kwargs['pk'])
-        context['article'] = article
-        return context
-
-    def form_valid(self, form):
-        # Asocia el comentario con el artículo y el autor
-        form.instance.article = Article.objects.get(pk=self.kwargs['pk'])
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        # Redirige a la página de detalles del artículo después de agregar un comentario
-        return reverse('blog_app:article_detail', kwargs={'pk': self.kwargs['pk']})
+    template_name = 'blog_app/article_delete.html'
+    success_url = reverse_lazy('blog_app:article_list')
 
 class ArticleCategoryListView(ListView):
     model = Article
@@ -258,7 +235,37 @@ class ArticleCategoryListView(ListView):
         context['category'] = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         return context
 
-class MessageCreateView(CreateView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog_app/comment_create.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        article = Article.objects.get(pk=self.kwargs['pk'])
+        context['article'] = article
+        return context
+
+    def form_valid(self, form):
+        # Asocia el comentario con el artículo y el autor
+        form.instance.article = Article.objects.get(pk=self.kwargs['pk'])
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Redirige a la página de detalles del artículo después de agregar un comentario
+        return reverse('blog_app:article_detail', kwargs={'pk': self.kwargs['pk']})
+
+class MessageListView(LoginRequiredMixin, ListView):
+    model = Message
+    template_name = 'blog_app/message_list.html'
+    context_object_name = 'messages'
+
+    def get_queryset(self):
+        # Filtra los mensajes por el usuario actual como remitente o destinatario
+        return Message.objects.filter(sender=self.request.user) | Message.objects.filter(receiver=self.request.user)
+
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     form_class = MessageForm
     template_name = 'blog_app/message_create.html'
@@ -273,14 +280,4 @@ class MessageCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.sender = self.request.user
-        # Puedes realizar otras acciones necesarias aquí antes de guardar
         return super().form_valid(form)
-
-class MessageListView(ListView):
-    model = Message
-    template_name = 'blog_app/message_list.html'  # Reemplaza con la ruta correcta a tu template
-    context_object_name = 'messages'
-
-    def get_queryset(self):
-        # Filtra los mensajes por el usuario actual como remitente o destinatario
-        return Message.objects.filter(sender=self.request.user) | Message.objects.filter(receiver=self.request.user)

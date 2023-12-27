@@ -1,8 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.forms import UserChangeForm
-from .models import *
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.forms import DateInput
+from .models import *
 
 class LoginForm(AuthenticationForm):
     class Meta:
@@ -10,6 +9,7 @@ class LoginForm(AuthenticationForm):
         fields = ['username', 'password']
 
 class RegisterForm(UserCreationForm):
+    # Campo adicional para la fecha de nacimiento
     date_of_birth = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date'}),
         required=True
@@ -40,37 +40,35 @@ class UserForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
 class AvatarForm(forms.ModelForm):
+    # Campo adicional para eliminar la imagen
     clear = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
     class Meta:
         model = Avatar
-        fields = ['image']  # Reemplaza 'image' con el campo real que almacena la imagen del avatar
+        fields = ['image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Personaliza el formulario según tus necesidades
 
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ['title', 'content', 'categories', 'image']  # Reemplaza 'image' con el campo real que almacena la imagen del avatar
+        fields = ['title', 'content', 'categories', 'image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Personaliza el formulario según tus necesidades
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['content']  # Reemplaza 'image' con el campo real que almacena la imagen del avatar
+        fields = ['content']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Personaliza el formulario según tus necesidades
 
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['receiver', 'message']  # Reemplaza 'image' con el campo real que almacena la imagen del avatar
+        fields = ['receiver', 'message']
 
     def __init__(self, *args, **kwargs):
         # Filtra la lista de usuarios para excluir al remitente actual
