@@ -3,17 +3,12 @@
 ## ¡Bienvenido al repositorio de la aplicación Django "Blog App"! Este proyecto es una aplicación de blog con características como autenticación de usuarios, perfiles, categorías, artículos, comentarios y mensajería interna.
 
 0. Estructura del Proyecto
-plaintext
-Copy code
+
 ```bash
-tu_proyecto/
+final_project/
 ├── blog_app/
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
 │   ├── migrations/
-│   ├── models.py
+│   ├── static/
 │   ├── templates/
 │   │   └── blog_app/
 │   │       ├── article_create.html
@@ -35,16 +30,24 @@ tu_proyecto/
 │   │       ├── user_delete.html
 │   │       ├── user_list.html
 │   │       └── user_update.html
-│   ├── tests/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── context_processors.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
 │   ├── urls.py
 │   └── views.py
+└── final_project/
+│    ├── __init__.py
+│    ├── asgi.py
+│    ├── settings.py
+│    ├── urls.py
+│    └── wsgi.py
+└── media/
+│    └── avatars/
 ├── manage.py
-└── tu_proyecto/
-    ├── __init__.py
-    ├── asgi.py
-    ├── settings.py
-    ├── urls.py
-    └── wsgi.py
 ```
 
 1. Configuración del Proyecto
@@ -72,28 +75,24 @@ Formularios personalizados para autenticación, registro, categorías, perfil, u
 Configuración de las URL para todas las vistas de la aplicación.
 
 5. Ejecución del Proyecto
-Instala las dependencias:
 
+Instala las dependencias:
 ```bash
-Copy code
 pip install -r requirements.txt
 ```
 
 Aplica las migraciones:
 ```bash
-Copy code
 python manage.py migrate
 ```
 
 Crea un superusuario:
 ```bash
-Copy code
 python manage.py createsuperuser
 ```
 
 Ejecuta el servidor de desarrollo:
 ```bash
-Copy code
 python manage.py runserver
 ```
 
