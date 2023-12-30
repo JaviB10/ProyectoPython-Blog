@@ -1,8 +1,11 @@
 # Proyecto Django: Blog App
 
-## ¡Bienvenido al repositorio de la aplicación Django "Blog App"! Este proyecto es una aplicación de blog con características como autenticación de usuarios, perfiles, categorías, artículos, comentarios y mensajería interna.
+¡Bienvenido al repositorio de la aplicación Django "Blog App"! Este proyecto es una aplicación de blog con características como autenticación de usuarios, perfiles, categorías, artículos, comentarios y mensajería interna.
 
-0. Estructura del Proyecto
+Comisión: 47790
+Alumno: Javier Ballón
+
+## Estructura del Proyecto
 
 ```bash
 final_project/
@@ -50,48 +53,68 @@ final_project/
 ├── manage.py
 ```
 
-1. Configuración del Proyecto
+## Configuración del Proyecto
 
-```bash
-Modelos:
+### Modelos:
 
-User: Modelo personalizado de usuario con campos adicionales.
-Avatar: Modelo para el avatar de usuario.
-Profile: Modelo para el perfil de usuario.
-Message: Modelo para mensajes internos.
-Author, Category, Article, Comment: Modelos para la funcionalidad de blog.
-```
+    User: Modelo personalizado de usuario con campos adicionales.
+    Avatar: Modelo para el avatar de usuario.
+    Profile: Modelo para el perfil de usuario.
+    Message: Modelo para mensajes internos.
+    Author, Category, Article, Comment: Modelos para la funcionalidad de blog.
 
-2. Vistas:
+## Vistas:
 
-Vistas para la página de inicio, registro, inicio de sesión, perfil, categorías, artículos y mensajes.
+### Vistas: 
+    Login
+    Register
+    Profile
+    Messages
+    Categories
+    Articles
 
-3. Formularios:
+## Formularios:
 
 Formularios personalizados para autenticación, registro, categorías, perfil, usuario, avatar, artículo, comentario y mensajes.
 
-4. URLs:
+## URLs:
 
 Configuración de las URL para todas las vistas de la aplicación.
 
-5. Ejecución del Proyecto
+## Tecnología Utilizada
 
-Instala las dependencias:
+### Frontend
+    HTML
+    CSS
+    JAVASCRIPT
+    BOOTSTRAP
+
+### Backend
+    Python
+    Django
+
+## Video demostración
+
+https://youtu.be/SPO-arOxM-M
+
+## Ejecución del Proyecto
+
+### Instala las dependencias:
 ```bash
 pip install -r requirements.txt
 ```
 
-Aplica las migraciones:
+### Aplica las migraciones:
 ```bash
 python manage.py migrate
 ```
 
-Crea un superusuario:
+### Crea un superusuario:
 ```bash
 python manage.py createsuperuser
 ```
 
-Ejecuta el servidor de desarrollo:
+### Ejecuta el servidor de desarrollo:
 ```bash
 python manage.py runserver
 ```
