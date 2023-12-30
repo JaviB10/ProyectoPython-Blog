@@ -1,8 +1,9 @@
 # Proyecto Django: Blog App
 
-¡Bienvenido al repositorio de la aplicación Django "Blog App"! Este proyecto es una aplicación de blog con características como autenticación de usuarios, perfiles, categorías, artículos, comentarios y mensajería interna.
+## BLOG GAMES
 
 Comisión: 47790
+
 Alumno: Javier Ballón
 
 ## Estructura del Proyecto
@@ -57,21 +58,21 @@ final_project/
 
 ### Modelos:
 
-    User: Modelo personalizado de usuario con campos adicionales.
-    Avatar: Modelo para el avatar de usuario.
-    Profile: Modelo para el perfil de usuario.
-    Message: Modelo para mensajes internos.
-    Author, Category, Article, Comment: Modelos para la funcionalidad de blog.
+    - User: Modelo personalizado de usuario con campos adicionales.
+    - Avatar: Modelo para el avatar de usuario.
+    - Profile: Modelo para el perfil de usuario.
+    - Message: Modelo para mensajes internos.
+    - Author, Category, Article, Comment: Modelos para la funcionalidad de blog.
 
 ## Vistas:
 
 ### Vistas: 
-    Login
-    Register
-    Profile
-    Messages
-    Categories
-    Articles
+    - Login
+    - Register
+    - Profile
+    - Messages
+    - Categories
+    - Articles
 
 ## Formularios:
 
@@ -84,14 +85,16 @@ Configuración de las URL para todas las vistas de la aplicación.
 ## Tecnología Utilizada
 
 ### Frontend
-    HTML
-    CSS
-    JAVASCRIPT
-    BOOTSTRAP
+
+    - HTML
+    - CSS
+    - Javascript
+    - Bootstrap
 
 ### Backend
-    Python
-    Django
+
+    - Python
+    - Django
 
 ## Video demostración
 
@@ -100,21 +103,25 @@ https://youtu.be/SPO-arOxM-M
 ## Ejecución del Proyecto
 
 ### Instala las dependencias:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Aplica las migraciones:
+
 ```bash
 python manage.py migrate
 ```
 
 ### Crea un superusuario:
+
 ```bash
 python manage.py createsuperuser
 ```
 
 ### Ejecuta el servidor de desarrollo:
+
 ```bash
 python manage.py runserver
 ```
