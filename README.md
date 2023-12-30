@@ -58,21 +58,22 @@ final_project/
 
 ### Modelos:
 
-    - User: Modelo personalizado de usuario con campos adicionales.
-    - Avatar: Modelo para el avatar de usuario.
-    - Profile: Modelo para el perfil de usuario.
-    - Message: Modelo para mensajes internos.
-    - Author, Category, Article, Comment: Modelos para la funcionalidad de blog.
+- User: Modelo personalizado de usuario con campos adicionales.
+- Avatar: Modelo para el avatar de usuario.
+- Profile: Modelo para el perfil de usuario.
+- Message: Modelo para mensajes internos.
+- Author, Category, Article, Comment: Modelos para la funcionalidad de blog.
 
 ## Vistas:
 
 ### Vistas: 
-    - Login
-    - Register
-    - Profile
-    - Messages
-    - Categories
-    - Articles
+
+- Login
+- Register
+- Profile
+- Messages
+- Categories
+- Articles
 
 ## Formularios:
 
@@ -86,15 +87,15 @@ Configuración de las URL para todas las vistas de la aplicación.
 
 ### Frontend
 
-    - HTML
-    - CSS
-    - Javascript
-    - Bootstrap
+- HTML
+- CSS
+- Javascript
+- Bootstrap
 
 ### Backend
 
-    - Python
-    - Django
+- Python
+- Django
 
 ## Video demostración
 
